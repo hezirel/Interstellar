@@ -1,0 +1,19 @@
+{
+  "name": "Apollo",
+  "version": "1.0.0",
+  "description": "Interstellar travel agency apollo service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon -w app -w index.js -e js index.js"
+  },
+  "dependencies": {
+    "koa": "^2.13.4"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.18"
+  }
+}
