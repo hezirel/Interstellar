@@ -1,0 +1,16 @@
+services:
+  apollo:
+    build: node/
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./node:/node
+      - /node/node_modules
+    environment:
+      - PORT=3000
+  mimir:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: knowledge
+
