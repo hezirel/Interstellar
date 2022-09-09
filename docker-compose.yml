@@ -1,16 +1,16 @@
+version: "3"
 services:
   apollo:
-    build: ./node
+    build: node/
     ports:
       - "3000:3000"
     volumes:
       - ./node:/app
-      - /node/node_modules
+      - /app/node_modules
     environment:
       - PORT=3000
-        #  mimir:
-        #    image: postgres:alpine
-        #    restart: always
-        #    environment:
-        #      POSTGRES_PASSWORD: knowledge
-
+  mimir:
+    image: postgres:alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: knowledge
