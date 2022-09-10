@@ -8,15 +8,16 @@
     "dev": "nodemon -w app -w index.js -e js index.js"
   },
   "dependencies": {
-    "knex": "latest",
+    "pg": "latest",
     "koa": "latest",
     "koa-route": "latest",
-    "pg": "latest"
+    "knex": "latest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "koa-logger": "latest",
     "nodemon": "latest"
   }
 }

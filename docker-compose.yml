@@ -1,5 +1,21 @@
 version: "3"
 services:
+  mimir:
+    image: postgres:alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: interstellar
+      POSTGRES_PASSWORD: gnosis
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    healthcheck:
+        test: pg_isready -d interstellar -U postgres
+        interval: 10s
+        timeout: 120s
+        start_period: 15s
   apollo:
     build: node/
     ports:
@@ -9,8 +25,9 @@ services:
       - /app/node_modules
     environment:
       - PORT=3000
-  mimir:
-    image: postgres:alpine
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: knowledge
+    depends_on:
+      mimir:
+        condition: service_healthy
+
+volumes:
+  data:
