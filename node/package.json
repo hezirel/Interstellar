@@ -1,6 +1,7 @@
 {
   "name": "Apollo",
   "version": "1.0.0",
+  "type": "module",
   "description": "Interstellar travel agency apollo service",
   "main": "index.js",
   "scripts": {
@@ -11,7 +12,10 @@
     "pg": "latest",
     "koa": "latest",
     "koa-route": "latest",
-    "knex": "latest"
+    "knex": "latest",
+    "apollo-server-koa": "latest",
+    "apollo-server-core": "latest",
+    "graphql": "latest"
   },
   "keywords": [],
   "author": "",

@@ -1,24 +1,56 @@
-const Koa = require('koa');
-const app = new Koa();
-const route = require('koa-route');
-const logger = require('koa-logger');
+import { ApolloServer, gql } from 'apollo-server-koa';
+
+import Koa from 'koa';
+import logger from 'koa-logger';
+
 const port = process.env.PORT;
-const knex = require('knex')({
-    client: 'pg',
-    connection: "postgres://postgres:gnosis@mimir:5432/interstellar",
-    searchPath: ['knex', 'public']
+const app = new Koa();
+const typeDefs = gql`
+
+type Port {
+    uid: String
+    name: String
+    description: String
+    latitude: Float
+    longitude: Float
+    planet_code: String
+}
+
+type Planet {
+    name: String
+    code: String
+}
+
+type Query {
+    ports: [Port]
+    planets: [Planet]
+}
+`;
+
+const resolvers = {
+    Query: {
+        ports: () => 1,
+        planets: () => 2,
+    }
+};
+
+
+//const knex = require('knex')({
+    //client: 'pg',
+    //connection: "postgres://postgres:gnosis@mimir:5432/interstellar",
+    //searchPath: ['knex', 'public']
+//});
+
+const server = new ApolloServer({
+    typeDefs,
+    resolvers,
+    csrfPrevention: true,
+    cache: 'bounded',
 });
 
+await server.start();
 app.use(logger());
-app.use(route.get('/', async (ctx) => {
-    ctx.body = await knex.raw(`
-    SELECT * FROM information_schema.tables;
-    `).then((res) => {
-        console.log(res.rows);
-        return JSON.stringify(res.rows);
-    });
-}));
-
-app.listen(port, () => {
-    console.log(`Server listening on port ${port}`);
+server.applyMiddleware({ app });
+app.listen({ port }, () => {
+    console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`);
 });

@@ -19,12 +19,12 @@ services:
   apollo:
     build: node/
     ports:
-      - "3000:3000"
+      - "4000:4000"
     volumes:
       - ./node:/app
       - /app/node_modules
     environment:
-      - PORT=3000
+      - PORT=4000
     depends_on:
       mimir:
         condition: service_healthy
