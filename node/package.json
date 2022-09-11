@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon -w app -w index.js -e js index.js"
+    "dev": "nodemon -w app -w server.js -e js server.js"
   },
   "dependencies": {
     "pg": "latest",

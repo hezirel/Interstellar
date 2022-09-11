@@ -1,39 +1,11 @@
-import { ApolloServer, gql } from 'apollo-server-koa';
-
 import Koa from 'koa';
 import logger from 'koa-logger';
+import { ApolloServer } from 'apollo-server-koa';
+import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
+import { typeDefs, resolvers } from './graphql/index.js';
 
 const port = process.env.PORT;
 const app = new Koa();
-const typeDefs = gql`
-
-type Port {
-    uid: String
-    name: String
-    description: String
-    latitude: Float
-    longitude: Float
-    planet_code: String
-}
-
-type Planet {
-    name: String
-    code: String
-}
-
-type Query {
-    ports: [Port]
-    planets: [Planet]
-}
-`;
-
-const resolvers = {
-    Query: {
-        ports: () => 1,
-        planets: () => 2,
-    }
-};
-
 
 //const knex = require('knex')({
     //client: 'pg',
@@ -46,11 +18,14 @@ const server = new ApolloServer({
     resolvers,
     csrfPrevention: true,
     cache: 'bounded',
+    plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })]
 });
 
-await server.start();
 app.use(logger());
+await server.start();
+
 server.applyMiddleware({ app });
+
 app.listen({ port }, () => {
     console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`);
 });
