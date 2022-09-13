@@ -17,7 +17,10 @@ services:
         timeout: 120s
         start_period: 15s
   apollo:
-    build: node/
+    build:
+      context: node/
+      args:
+        NODE_ENV: ${NODE_ENV}
     ports:
       - "${APOLLO_PORT}:${APOLLO_PORT}"
     volumes:

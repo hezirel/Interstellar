@@ -25,20 +25,20 @@ const server = new ApolloServer({
 
 app.use(logger());
 
-knex.raw("SELECT 1").then(() => {
-    console.log("Postgres connection successful");
+knex.raw("SELECT * FROM pg_catalog.pg_tables \
+        WHERE schemaname != 'pg_catalog' \
+        AND schemaname != 'information_schema';")
+    .then((res) => {
+        console.log("Postgres connection successful");
+        console.log(res.rows);
 
-    server.start().then(async () => {
-        server.applyMiddleware({ app });
-        app.listen( apollo_port , () => {
-            console.log(`🚀 Server ready at http://localhost:${apollo_port}${server.graphqlPath}`);
+        server.start().then(async () => {
+            server.applyMiddleware({ app });
+            app.listen( apollo_port , () => {
+                console.log(`🚀 Server ready at http://localhost:${apollo_port}${server.graphqlPath}`);
+            });
         });
+    }).catch((err) => {
+        console.log("Postgres connection failed");
+        console.error(err);
     });
-}).catch((err) => {
-    console.error("Postgres connection failed");
-    console.error(err);
-});
-
-
-
-
