@@ -24,15 +24,21 @@ const server = new ApolloServer({
 });
 
 app.use(logger());
-//_#:Split into async module
-await server.start();
 
-server.applyMiddleware({ app });
+knex.raw("SELECT 1").then(() => {
+    console.log("Postgres connection successful");
 
-app.listen( apollo_port , () => {
-    console.log(`🚀 Server ready at http://localhost:${apollo_port}${server.graphqlPath}`);
+    server.start().then(async () => {
+        server.applyMiddleware({ app });
+        app.listen( apollo_port , () => {
+            console.log(`🚀 Server ready at http://localhost:${apollo_port}${server.graphqlPath}`);
+        });
+    });
+}).catch((err) => {
+    console.error("Postgres connection failed");
+    console.error(err);
 });
 
-knex.raw("SELECT 1").then((res) => {
-    console.log(res);
-});
+
+
+
