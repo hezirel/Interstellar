@@ -23,7 +23,6 @@ const server = new ApolloServer({
 });
 
 process.env.NODE_ENV === "development" && app.use(logger());
-
 app.use(async (ctx, next) => {
     ctx.set('X-Clacks-Overhead', 'GNU Terry Pratchet');
     await next();
@@ -31,19 +30,21 @@ app.use(async (ctx, next) => {
 
 knex.raw("SELECT * FROM pg_catalog.pg_tables \
         WHERE schemaname != 'pg_catalog' \
-        AND schemaname != 'information_schema';")
-    .then((res) => {
-        console.log("Postgres connection successful");
-        console.log(res.rows);
+        AND schemaname != 'information_schema';").then((res) => {
+            console.log("Postgres connection successful");
+            console.log(res.rows);
 
-        server.start().then(() => {
-            server.applyMiddleware({ app });
-            app.listen( apollo_port , () => {
-                console.log(`🚀 Server ready at http://localhost:${apollo_port}${server.graphqlPath}`);
+            server.start().then(() => {
+                server.applyMiddleware({ app });
+                app.listen( apollo_port , () => {
+                    console.log(`🚀 Server ready at http://localhost:${apollo_port}${server.graphqlPath}`);
+                });
+            }).catch((err) => {
+                console.log("Error starting Apollo server");
+                console.error(err);
             });
-        });
 
-    }).catch((err) => {
-        console.log("Postgres connection failed");
-        console.error(err);
-    });
+        }).catch((err) => {
+            console.log("Postgres connection failed");
+            console.error(err);
+});
