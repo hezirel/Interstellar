@@ -3,16 +3,12 @@ import logger from 'koa-logger';
 import { ApolloServer } from 'apollo-server-koa';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { typeDefs, resolvers } from './graphql/index.js';
+import config from './db/knexfile.js';
 import Knex from 'knex';
 
 const apollo_port = process.env.APOLLO_PORT || 4000;
 const app = new Koa();
-
-const knex = new Knex({
-    client: 'pg',
-    connection: `postgres://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@mimir:${process.env.POSTGRES_PORT}/${process.env.POSTGRES_DB}`,
-    searchPath: ['knex', 'public']
-});
+const testsql = new Knex(config);
 
 const server = new ApolloServer({
     typeDefs,
@@ -28,9 +24,7 @@ app.use(async (ctx, next) => {
     await next();
 });
 
-knex.raw("SELECT * FROM pg_catalog.pg_tables \
-        WHERE schemaname != 'pg_catalog' \
-        AND schemaname != 'information_schema';").then((res) => {
+testsql.raw("SELECT * FROM planets").then((res) => {
             console.log("Postgres connection successful");
             console.log(res.rows);
 

@@ -9,4 +9,4 @@ RUN if [ "$NODE_ENV" = "development" ]; \
         fi
 COPY . .
 EXPOSE $PORT
-CMD ["npm", "run", "dev"]
+CMD ["/bin/sh", "entrypoint.sh"]
