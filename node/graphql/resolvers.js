@@ -1,7 +1,16 @@
+import config from '../db/knexfile.js';
+import Knex from 'knex';
+
+const db = new Knex(config);
+
 const resolvers = {
     Query: {
-        ports: () => 1,
-        planets: () => 2,
+        planets() {
+            return db.select().from('planets');
+        },
+        ports() {
+            return db.select().from('ports').limit(10).then((rows) => rows);
+        }
     }
 };
 
