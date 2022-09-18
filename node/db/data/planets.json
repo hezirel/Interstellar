@@ -3,9 +3,7 @@
     "name": "Mercury",
     "code": "MER"
   },
-  {
-    "name": "Venus",
-    "code": "VEN"
+  { "name": "Venus", "code": "VEN"
   },
   {
     "name": "Earth",
