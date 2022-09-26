@@ -1,7 +1,8 @@
 import { gql } from 'apollo-server-koa';
 
 const typeDefs = gql`
-type Port {
+type SpaceCenter {
+    id: ID!
     uid: String
     name: String
     description: String
@@ -11,12 +12,13 @@ type Port {
 }
 
 type Planet {
+    id: ID!
     name: String
     code: String
 }
 
 type Query {
-    ports: [Port]
+    spacecenters: [SpaceCenter]
     planets: [Planet]
 }
 `;

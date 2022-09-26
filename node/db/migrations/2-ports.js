@@ -1,5 +1,5 @@
 export function up(knex) {
-    return knex.schema.createTable('ports', (table) => {
+    return knex.schema.createTable('spacecenters', (table) => {
         table.increments('id').primary();
         table.string('name').notNullable();
         table.uuid('uid').notNullable().primary();
@@ -11,5 +11,5 @@ export function up(knex) {
 }
 
 export function down(knex) {
-    return knex.schema.dropTable('ports');
+    return knex.schema.dropTable('spacecenters');
 }

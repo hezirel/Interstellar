@@ -16,6 +16,7 @@ const server = new ApolloServer({
 });
 
 process.env.NODE_ENV === "development" && app.use(logger());
+
 app.use(async (ctx, next) => {
     ctx.set('X-Clacks-Overhead', 'GNU Terry Pratchet');
     await next();

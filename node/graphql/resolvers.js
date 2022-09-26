@@ -8,8 +8,8 @@ const resolvers = {
         planets() {
             return db.select().from('planets');
         },
-        ports() {
-            return db.select().from('ports').limit(10).then((rows) => rows);
+        spacecenters() {
+            return db.select().from('spacecenters').limit(10).then((rows) => rows);
         }
     }
 };
